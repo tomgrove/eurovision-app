@@ -1,0 +1,19 @@
+.App {
+  min-height: 100vh;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App {
+    animation: fadeIn 0.6s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
