@@ -26,17 +26,19 @@ const initDb = async () => {
   }
 };
 
-app.get('/health', (req, res) => {
+// Health check endpoint
+app.get('/api/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
-// Routes with /api prefix (for Vercel routing)
+// API routes
 app.use('/api/auth', authRoutes);
 app.use('/api/performers', performersRoutes);
 app.use('/api/scores', scoresRoutes);
 
+// Error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('API Error:', err);
   res.status(500).json({ error: 'Internal server error' });
 });
 
