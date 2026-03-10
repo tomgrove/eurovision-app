@@ -30,10 +30,10 @@ app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
-// Routes without /api prefix (Vercel rewrite handles that)
-app.use('/auth', authRoutes);
-app.use('/performers', performersRoutes);
-app.use('/scores', scoresRoutes);
+// Routes with /api prefix (for Vercel routing)
+app.use('/api/auth', authRoutes);
+app.use('/api/performers', performersRoutes);
+app.use('/api/scores', scoresRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

@@ -3,25 +3,19 @@
   "buildCommand": "cd client && yarn install && CI=false yarn build",
   "outputDirectory": "client/build",
   "framework": "create-react-app",
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    }
-  ],
   "functions": {
     "api/index.js": {
       "maxDuration": 30
     }
-  }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
