@@ -42,8 +42,22 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Vercel serverless handler
+// Vercel serverless handler with top-level error handling
 module.exports = async (req, res) => {
-  await initDb();
-  return app(req, res);
+  try {
+    await initDb();
+    // Hand off to Express app
+    return app(req, res);
+  } catch (err) {
+    // Log full error for debugging in Vercel logs
+    console.error('Top-level handler error:', err && err.stack ? err.stack : err);
+    // Return useful JSON for debugging (will be visible in curl but Vercel may still mask some)
+    try {
+      res.status(500).json({ error: err && err.message ? err.message : String(err) });
+    } catch (e) {
+      // If sending JSON fails, fallback to plain text
+      res.statusCode = 500;
+      res.end('Internal server error');
+    }
+  }
 };
