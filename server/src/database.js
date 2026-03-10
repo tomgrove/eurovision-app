@@ -1,13 +1,21 @@
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
 
-// Use in-memory SQLite for development (Sequelize handles this automatically)
-// Sequelize automatically uses sqlite3 dialect with :memory: storage
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: ':memory:',
-  logging: false,
-});
+// Use Postgres if DATABASE_URL is provided (recommended for production), otherwise use in-memory SQLite
+let sequelize;
+if (process.env.DATABASE_URL) {
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    logging: false,
+  });
+} else {
+  // Fallback to in-memory SQLite for local development and simple deployments
+  sequelize = new Sequelize({
+    dialect: 'sqlite',
+    storage: ':memory:',
+    logging: false,
+  });
+}
 
 sequelize.authenticate()
   .then(() => console.log('✅ Database connected'))
