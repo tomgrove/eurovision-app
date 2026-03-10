@@ -36,7 +36,8 @@ export const AuthProvider = ({ children }) => {
       setUser(newUser);
       return newUser;
     } catch (error) {
-      throw error.response?.data?.error || 'Signup failed';
+      const errorMsg = error.response?.data?.error || error.message || 'Signup failed';
+      throw typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg);
     }
   };
 
@@ -50,7 +51,8 @@ export const AuthProvider = ({ children }) => {
       setUser(newUser);
       return newUser;
     } catch (error) {
-      throw error.response?.data?.error || 'Login failed';
+      const errorMsg = error.response?.data?.error || error.message || 'Login failed';
+      throw typeof errorMsg === 'string' ? errorMsg : JSON.stringify(errorMsg);
     }
   };
 
