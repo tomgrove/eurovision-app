@@ -2,7 +2,7 @@
   "version": 2,
   "buildCommand": "cd client && yarn install && yarn build",
   "outputDirectory": "client/build",
-  "framework": "react",
+  "framework": "create-react-app",
   "env": {
     "REACT_APP_API_URL": "@api_url"
   },
