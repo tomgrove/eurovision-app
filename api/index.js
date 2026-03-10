@@ -26,13 +26,14 @@ const initDb = async () => {
   }
 };
 
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   res.json({ status: 'Server is running' });
 });
 
-app.use('/api/auth', authRoutes);
-app.use('/api/performers', performersRoutes);
-app.use('/api/scores', scoresRoutes);
+// Routes without /api prefix (Vercel rewrite handles that)
+app.use('/auth', authRoutes);
+app.use('/performers', performersRoutes);
+app.use('/scores', scoresRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
