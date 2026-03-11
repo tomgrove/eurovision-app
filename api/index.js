@@ -510,9 +510,21 @@ function buildMemoryApp() {
 // ---------------------------------------------------------------------------
 // Build the appropriate app and export the serverless handler
 // ---------------------------------------------------------------------------
-const mode = process.env.DATABASE_URL ? 'postgres' : 'memory';
-const { app, initDb } = mode === 'postgres' ? buildPostgresApp() : buildMemoryApp();
+let app, initDb;
 let dbInitialized = false;
+
+try {
+  const mode = process.env.DATABASE_URL ? 'postgres' : 'memory';
+  console.log('API mode:', mode, 'DATABASE_URL set:', !!process.env.DATABASE_URL);
+  const built = mode === 'postgres' ? buildPostgresApp() : buildMemoryApp();
+  app = built.app;
+  initDb = built.initDb;
+} catch (buildErr) {
+  console.error('Failed to build Postgres app, falling back to in-memory:', buildErr && buildErr.message);
+  const built = buildMemoryApp();
+  app = built.app;
+  initDb = built.initDb;
+}
 
 module.exports = async (req, res) => {
   try {
@@ -522,7 +534,16 @@ module.exports = async (req, res) => {
     }
     return app(req, res);
   } catch (err) {
-    console.error('Handler error:', err);
+    console.error('Handler error:', err && err.stack ? err.stack : err);
+    // If DB init failed, fall back to in-memory
+    if (!dbInitialized) {
+      console.warn('DB init failed, switching to in-memory fallback');
+      const built = buildMemoryApp();
+      app = built.app;
+      initDb = built.initDb;
+      dbInitialized = true;
+      return app(req, res);
+    }
     res.status(500).json({ error: err && err.message ? err.message : 'Internal server error' });
   }
 };
