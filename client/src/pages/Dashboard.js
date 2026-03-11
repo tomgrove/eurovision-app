@@ -14,6 +14,7 @@ const countryCodeToFlag = (code) => {
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const [performers, setPerformers] = useState([]);
+  const [userScores, setUserScores] = useState({});
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
@@ -28,6 +29,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     loadPerformers();
+    loadUserScores();
   }, []);
 
   useEffect(() => {
@@ -44,6 +46,24 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const loadUserScores = async () => {
+    try {
+      const response = await scoresAPI.getUserScores();
+      const scoreMap = {};
+      response.data.forEach(s => {
+        const pId = s.Performer?.id || s.performerId;
+        scoreMap[pId] = s.score;
+      });
+      setUserScores(scoreMap);
+    } catch (error) {
+      console.error('Error loading user scores:', error);
+    }
+  };
+
+  const handleScoreSubmit = () => {
+    loadUserScores();
   };
 
   const loadLeaderboard = async () => {
@@ -120,24 +140,23 @@ const Dashboard = () => {
       </nav>
 
       <main className="dashboard-content">
-        {activeTab === 'score' && (
-          <section className="scoring-section">
-            <h2>Rate Your Favorite Performances</h2>
-            {loading ? (
-              <div className="loading">Loading performers...</div>
-            ) : (
-              <div className="performers-grid">
-                {performers.map((performer) => (
-                  <PerformerCard
-                    key={performer.id}
-                    performer={performer}
-                    onScoreSubmit={loadPerformers}
-                  />
-                ))}
-              </div>
-            )}
-          </section>
-        )}
+        <section className="scoring-section" style={{ display: activeTab === 'score' ? 'block' : 'none' }}>
+          <h2>Rate Your Favorite Performances</h2>
+          {loading ? (
+            <div className="loading">Loading performers...</div>
+          ) : (
+            <div className="performers-grid">
+              {performers.map((performer) => (
+                <PerformerCard
+                  key={performer.id}
+                  performer={performer}
+                  initialScore={userScores[performer.id] || 0}
+                  onScoreSubmit={handleScoreSubmit}
+                />
+              ))}
+            </div>
+          )}
+        </section>
 
         {activeTab === 'leaderboard' && (
           <section className="leaderboard-section">

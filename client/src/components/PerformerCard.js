@@ -10,8 +10,8 @@ const countryCodeToFlag = (code) => {
   );
 };
 
-const PerformerCard = ({ performer, onScoreSubmit }) => {
-  const [score, setScore] = useState(0);
+const PerformerCard = ({ performer, onScoreSubmit, initialScore }) => {
+  const [score, setScore] = useState(initialScore || 0);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
