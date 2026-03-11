@@ -342,7 +342,7 @@ function buildMemoryApp() {
   let nextScoreId = 1;
   const scores = [];
 
-  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running' }));
+  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running', dbUrlSet: !!process.env.DATABASE_URL, buildError: buildError || null }));
 
   app.post('/api/auth/signup', async (req, res) => {
     try {
@@ -512,6 +512,7 @@ function buildMemoryApp() {
 // ---------------------------------------------------------------------------
 let app, initDb;
 let dbInitialized = false;
+let buildError = null;
 
 try {
   const mode = process.env.DATABASE_URL ? 'postgres' : 'memory';
@@ -520,7 +521,8 @@ try {
   app = built.app;
   initDb = built.initDb;
 } catch (buildErr) {
-  console.error('Failed to build Postgres app, falling back to in-memory:', buildErr && buildErr.message);
+  console.error('Failed to build Postgres app, falling back to in-memory:', buildErr && buildErr.stack ? buildErr.stack : buildErr);
+  buildError = buildErr && buildErr.message ? buildErr.message : String(buildErr);
   const built = buildMemoryApp();
   app = built.app;
   initDb = built.initDb;
