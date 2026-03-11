@@ -1,8 +1,8 @@
 .performer-card {
-  background: white;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s, box-shadow 0.2s;
   display: flex;
   flex-direction: row;
@@ -13,7 +13,8 @@
 
 .performer-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .performer-flag {
@@ -30,7 +31,7 @@
 .performer-card h3 {
   margin: 0 0 2px 0;
   font-size: 1em;
-  color: #0a1e3d;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -38,7 +39,7 @@
 
 .performer-card .artist {
   font-size: 0.82em;
-  color: #112d5a;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: bold;
   margin: 0 0 1px 0;
   white-space: nowrap;
@@ -48,7 +49,7 @@
 
 .performer-card .song {
   font-size: 0.78em;
-  color: #666;
+  color: rgba(255, 255, 255, 0.6);
   margin: 0;
   font-style: italic;
   white-space: nowrap;
@@ -79,14 +80,14 @@
 
 .max-score {
   font-size: 0.8em;
-  color: #999;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .score-slider {
   width: 80px;
   height: 6px;
   cursor: pointer;
-  accent-color: #112d5a;
+  accent-color: #d4213d;
 }
 
 .score-slider:disabled {

@@ -4,7 +4,7 @@
 }
 
 .dashboard-header {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(10, 30, 61, 0.85);
   padding: 12px 20px;
   display: flex;
   justify-content: space-between;
@@ -26,7 +26,7 @@
 
 .dashboard-header h1 {
   margin: 0;
-  color: #0a1e3d;
+  color: #ffffff;
   font-size: 1.4em;
 }
 
@@ -37,7 +37,7 @@
 }
 
 .user-greeting {
-  color: #333;
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
 }
 
@@ -81,9 +81,9 @@
 }
 
 .nav-btn.active {
-  background: white;
-  color: #0a1e3d;
-  border-color: white;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
 }
 
 .dashboard-content {
@@ -118,7 +118,7 @@
 }
 
 .leaderboard-section {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
@@ -127,13 +127,13 @@
 }
 
 .leaderboard-section h2 {
-  color: #0a1e3d;
+  color: #ffffff;
   text-shadow: none;
 }
 
 .leaderboard-empty {
   text-align: center;
-  color: #999;
+  color: rgba(255, 255, 255, 0.5);
   font-size: 1em;
   padding: 30px;
 }
@@ -149,24 +149,24 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  background: #f0f2f8;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   transition: background 0.2s;
 }
 
 .leaderboard-row:hover {
-  background: #e0e5f0;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .leaderboard-row.top-three {
-  background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+  background: rgba(212, 33, 61, 0.15);
   border-left: 3px solid #d4213d;
 }
 
 .lb-rank {
   font-weight: bold;
   font-size: 1em;
-  color: #112d5a;
+  color: rgba(255, 255, 255, 0.7);
   min-width: 22px;
   text-align: center;
 }
@@ -192,7 +192,7 @@
 .lb-country {
   font-weight: 600;
   font-size: 0.9em;
-  color: #333;
+  color: #ffffff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -200,7 +200,7 @@
 
 .lb-artist {
   font-size: 0.78em;
-  color: #888;
+  color: rgba(255, 255, 255, 0.5);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -216,17 +216,17 @@
 .lb-total {
   font-weight: bold;
   font-size: 0.95em;
-  color: #112d5a;
+  color: #d4213d;
 }
 
 .lb-votes {
   font-size: 0.72em;
-  color: #999;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* Compare tab */
 .compare-section {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   padding: 20px 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
@@ -235,7 +235,7 @@
 }
 
 .compare-section h2 {
-  color: #0a1e3d;
+  color: #ffffff;
   text-align: center;
   margin: 0 0 16px 0;
   font-size: 1.2em;
@@ -243,7 +243,7 @@
 
 .compare-empty {
   text-align: center;
-  color: #999;
+  color: rgba(255, 255, 255, 0.5);
   padding: 30px;
 }
 
@@ -258,7 +258,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 14px;
-  background: #f0f2f8;
+  background: rgba(255, 255, 255, 0.08);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -267,18 +267,18 @@
 }
 
 .compare-user-row:hover {
-  background: #e0e5f0;
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .cu-name {
   font-weight: 600;
   font-size: 0.95em;
-  color: #333;
+  color: #ffffff;
 }
 
 .cu-count {
   font-size: 0.8em;
-  color: #999;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .compare-header {
@@ -297,7 +297,7 @@
 .compare-back {
   background: none;
   border: none;
-  color: #112d5a;
+  color: rgba(255, 255, 255, 0.8);
   font-weight: bold;
   font-size: 0.9em;
   cursor: pointer;
@@ -321,7 +321,7 @@
   color: #999;
 }
 
-.cl-you { color: #112d5a; }
+.cl-you { color: rgba(255, 255, 255, 0.8); }
 .cl-them { color: #d4213d; }
 
 .compare-row {
@@ -329,7 +329,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 12px;
-  background: #f0f2f8;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 6px;
 }
 
@@ -342,7 +342,7 @@
   flex: 1;
   font-size: 0.85em;
   font-weight: 500;
-  color: #333;
+  color: rgba(255, 255, 255, 0.85);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -363,7 +363,7 @@
   color: #888;
 }
 
-.cr-mine { color: #112d5a; }
+.cr-mine { color: #ffffff; }
 .cr-theirs { color: #d4213d; }
 .cr-score.higher { color: #4caf50; }
 .cr-score.lower { color: #d4213d; }
@@ -371,7 +371,7 @@
 
 .cr-vs {
   font-size: 0.7em;
-  color: #ccc;
+  color: rgba(255, 255, 255, 0.3);
 }
 
 @media (max-width: 768px) {
