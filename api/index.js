@@ -344,7 +344,7 @@ function buildMemoryApp() {
   let nextScoreId = 1;
   const scores = [];
 
-  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running', dbUrlSet: !!process.env.DATABASE_URL, buildError: buildError || null, initError: initError || null }));
+  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running' }));
 
   app.post('/api/auth/signup', async (req, res) => {
     try {
