@@ -55,7 +55,7 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
         <button
           onClick={handleSubmit}
           className={`submit-btn ${submitted ? 'submitted' : ''}`}
-          disabled={loading || score === 0}
+          disabled={loading}
         >
           {submitted ? '✓' : loading ? '...' : 'Submit'}
         </button>
