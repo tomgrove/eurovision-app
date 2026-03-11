@@ -30,7 +30,7 @@ const Score = sequelize.define('Score', {
     allowNull: false,
     validate: {
       min: 0,
-      max: 5,
+      max: 12,
     },
   },
   comment: {

@@ -41,12 +41,12 @@ const PerformerCard = ({ performer, onScoreSubmit }) => {
       <div className="scoring-section">
         <div className="score-display">
           <span className="current-score">{score}</span>
-          <span className="max-score">/5</span>
+          <span className="max-score">/12</span>
         </div>
         <input
           type="range"
           min="0"
-          max="5"
+          max="12"
           value={score}
           onChange={(e) => setScore(parseInt(e.target.value))}
           className="score-slider"

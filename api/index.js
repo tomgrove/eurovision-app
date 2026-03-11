@@ -160,7 +160,7 @@ function buildMemoryApp() {
       const { performerId, score, comment } = req.body || {};
       const pId = parseInt(performerId, 10);
       if (!pId || score === undefined || score === null) return res.status(400).json({ error: 'Missing required fields' });
-      if (score < 0 || score > 5) return res.status(400).json({ error: 'Score must be between 0 and 5' });
+      if (score < 0 || score > 12) return res.status(400).json({ error: 'Score must be between 0 and 12' });
       const performer = performers.find(p => p.id === pId);
       if (!performer) return res.status(404).json({ error: 'Performer not found' });
       let existing = scores.find(s => s.userId === req.userId && s.performerId === pId);

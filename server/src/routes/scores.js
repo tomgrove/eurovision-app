@@ -11,8 +11,8 @@ router.post('/', authenticate, async (req, res) => {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     
-    if (score < 0 || score > 5) {
-      return res.status(400).json({ error: 'Score must be between 0 and 5' });
+    if (score < 0 || score > 12) {
+      return res.status(400).json({ error: 'Score must be between 0 and 12' });
     }
     
     const performer = await Performer.findByPk(performerId);
