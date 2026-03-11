@@ -16,6 +16,12 @@
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.14);
 }
 
+.performer-flag {
+  font-size: 2em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .performer-info {
   flex: 1;
   min-width: 0;

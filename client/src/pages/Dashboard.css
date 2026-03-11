@@ -85,8 +85,9 @@
   color: white;
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.4em;
+  font-size: 1.2em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
 }
 
 .performers-grid {

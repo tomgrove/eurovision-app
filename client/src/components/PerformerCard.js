@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import './PerformerCard.css';
 import { scoresAPI } from '../api';
 
+// Convert 2-letter country code to emoji flag (e.g. "SE" → 🇸🇪)
+const countryCodeToFlag = (code) => {
+  if (!code || code.length !== 2) return '🏳️';
+  return String.fromCodePoint(
+    ...code.toUpperCase().split('').map(c => 0x1F1E6 + c.charCodeAt(0) - 65)
+  );
+};
+
 const PerformerCard = ({ performer, onScoreSubmit }) => {
   const [score, setScore] = useState(0);
   const [comment, setComment] = useState('');
@@ -24,6 +32,7 @@ const PerformerCard = ({ performer, onScoreSubmit }) => {
 
   return (
     <div className="performer-card">
+      <span className="performer-flag">{countryCodeToFlag(performer.countryCode)}</span>
       <div className="performer-info">
         <h3>{performer.country}</h3>
         <p className="artist">{performer.artistName}</p>
