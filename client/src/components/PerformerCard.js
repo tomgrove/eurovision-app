@@ -33,20 +33,22 @@ const PerformerCard = ({ performer, onScoreSubmit }) => {
         <p className="song">{performer.songTitle}</p>
 
         <div className="scoring-section">
-          <div className="score-display">
-            <span className="current-score">{score}</span>
-            <span className="max-score">/5</span>
-          </div>
+          <div className="score-row">
+            <div className="score-display">
+              <span className="current-score">{score}</span>
+              <span className="max-score">/5</span>
+            </div>
 
-          <input
-            type="range"
-            min="0"
-            max="5"
-            value={score}
-            onChange={(e) => setScore(parseInt(e.target.value))}
-            className="score-slider"
-            disabled={loading}
-          />
+            <input
+              type="range"
+              min="0"
+              max="5"
+              value={score}
+              onChange={(e) => setScore(parseInt(e.target.value))}
+              className="score-slider"
+              disabled={loading}
+            />
+          </div>
 
           <textarea
             placeholder="Add a comment (optional)"
