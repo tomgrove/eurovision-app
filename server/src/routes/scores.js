@@ -78,4 +78,24 @@ router.get('/compare/:userId', authenticate, async (req, res) => {
   }
 });
 
+// List users who have submitted scores (excluding current user)
+router.get('/users', authenticate, async (req, res) => {
+  try {
+    const allScores = await Score.findAll({ attributes: ['userId'] });
+    const userIds = [...new Set(allScores.map(s => s.userId))].filter(id => id !== req.userId);
+    const scoringUsers = await User.findAll({
+      where: { id: userIds },
+      attributes: ['id', 'username', 'displayName'],
+    });
+    const result = scoringUsers.map(u => {
+      const count = allScores.filter(s => s.userId === u.id).length;
+      return { id: u.id, username: u.username, displayName: u.displayName, scoreCount: count };
+    });
+    result.sort((a, b) => b.scoreCount - a.scoreCount);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

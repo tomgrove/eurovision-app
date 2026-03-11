@@ -19,12 +19,20 @@ const Dashboard = () => {
   const [leaderboardLoading, setLeaderboardLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('score');
 
+  // Compare state
+  const [compareUsers, setCompareUsers] = useState([]);
+  const [compareLoading, setCompareLoading] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [comparison, setComparison] = useState(null);
+  const [comparisonLoading, setComparisonLoading] = useState(false);
+
   useEffect(() => {
     loadPerformers();
   }, []);
 
   useEffect(() => {
     if (activeTab === 'leaderboard') loadLeaderboard();
+    if (activeTab === 'compare') loadCompareUsers();
   }, [activeTab]);
 
   const loadPerformers = async () => {
@@ -50,6 +58,33 @@ const Dashboard = () => {
     }
   };
 
+  const loadCompareUsers = async () => {
+    setCompareLoading(true);
+    setSelectedUser(null);
+    setComparison(null);
+    try {
+      const response = await scoresAPI.getUsers();
+      setCompareUsers(response.data);
+    } catch (error) {
+      console.error('Error loading users:', error);
+    } finally {
+      setCompareLoading(false);
+    }
+  };
+
+  const loadComparison = async (otherUser) => {
+    setSelectedUser(otherUser);
+    setComparisonLoading(true);
+    try {
+      const response = await scoresAPI.compare(otherUser.id);
+      setComparison(response.data);
+    } catch (error) {
+      console.error('Error loading comparison:', error);
+    } finally {
+      setComparisonLoading(false);
+    }
+  };
+
   return (
     <div className="dashboard">
       <header className="dashboard-header">
@@ -72,6 +107,12 @@ const Dashboard = () => {
           onClick={() => setActiveTab('leaderboard')}
         >
           🏆 Leaderboard
+        </button>
+        <button
+          className={`nav-btn ${activeTab === 'compare' ? 'active' : ''}`}
+          onClick={() => setActiveTab('compare')}
+        >
+          👥 Compare
         </button>
       </nav>
 
@@ -119,6 +160,67 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
+            )}
+          </section>
+        )}
+        {activeTab === 'compare' && (
+          <section className="compare-section">
+            {!selectedUser ? (
+              <>
+                <h2>👥 Compare Scores</h2>
+                {compareLoading ? (
+                  <div className="loading">Loading users...</div>
+                ) : compareUsers.length === 0 ? (
+                  <div className="compare-empty">No other users have scored yet.</div>
+                ) : (
+                  <div className="compare-user-list">
+                    {compareUsers.map(u => (
+                      <button key={u.id} className="compare-user-row" onClick={() => loadComparison(u)}>
+                        <span className="cu-name">{u.displayName || u.username}</span>
+                        <span className="cu-count">{u.scoreCount} score{u.scoreCount !== 1 ? 's' : ''}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="compare-header">
+                  <button className="compare-back" onClick={() => { setSelectedUser(null); setComparison(null); }}>← Back</button>
+                  <h2>You vs {selectedUser.displayName || selectedUser.username}</h2>
+                </div>
+                {comparisonLoading ? (
+                  <div className="loading">Loading comparison...</div>
+                ) : comparison ? (
+                  <div className="compare-list">
+                    <div className="compare-legend">
+                      <span className="cl-you">You</span>
+                      <span className="cl-them">{selectedUser.displayName || selectedUser.username}</span>
+                    </div>
+                    {performers.map(p => {
+                      const myScore = comparison.currentUser.scores.find(s => (s.Performer?.id || s.performerId) === p.id);
+                      const theirScore = comparison.otherUser?.scores.find(s => (s.Performer?.id || s.performerId) === p.id);
+                      const myVal = myScore ? myScore.score : null;
+                      const theirVal = theirScore ? theirScore.score : null;
+                      return (
+                        <div key={p.id} className="compare-row">
+                          <span className="cr-flag">{countryCodeToFlag(p.countryCode)}</span>
+                          <span className="cr-country">{p.country}</span>
+                          <div className="cr-scores">
+                            <span className={`cr-score cr-mine ${myVal !== null && theirVal !== null ? (myVal > theirVal ? 'higher' : myVal < theirVal ? 'lower' : 'equal') : ''}`}>
+                              {myVal !== null ? myVal : '–'}
+                            </span>
+                            <span className="cr-vs">vs</span>
+                            <span className={`cr-score cr-theirs ${theirVal !== null && myVal !== null ? (theirVal > myVal ? 'higher' : theirVal < myVal ? 'lower' : 'equal') : ''}`}>
+                              {theirVal !== null ? theirVal : '–'}
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+              </>
             )}
           </section>
         )}

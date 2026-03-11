@@ -38,6 +38,7 @@ export const scoresAPI = {
     api.post('/scores', { performerId, score, comment }),
   getUserScores: () => api.get('/scores/user/scores'),
   compare: (userId) => api.get(`/scores/compare/${userId}`),
+  getUsers: () => api.get('/scores/users'),
 };
 
 export default api;

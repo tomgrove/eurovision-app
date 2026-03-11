@@ -201,6 +201,24 @@ function buildMemoryApp() {
     }
   });
 
+  // List users who have submitted scores (excluding current user)
+  memoryApp.get('/api/scores/users', authenticate, (req, res) => {
+    try {
+      const userIds = [...new Set(scores.map(s => s.userId))].filter(id => id !== req.userId);
+      const result = userIds.map(uid => {
+        const u = users.find(x => x.id === uid);
+        if (!u) return null;
+        const count = scores.filter(s => s.userId === uid).length;
+        return { id: u.id, username: u.username, displayName: u.displayName, scoreCount: count };
+      }).filter(Boolean);
+      result.sort((a, b) => b.scoreCount - a.scoreCount);
+      res.json(result);
+    } catch (err) {
+      console.error('In-memory users error:', err);
+      res.status(500).json({ error: 'A server error has occurred' });
+    }
+  });
+
   // attach to outer scope
   app = memoryApp;
   initDb = async () => { /* no-op for in-memory */ };
