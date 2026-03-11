@@ -75,7 +75,7 @@
 .current-score {
   font-size: 1.4em;
   font-weight: bold;
-  color: #d4213d;
+  color: #ffffff;
 }
 
 .max-score {
@@ -87,7 +87,7 @@
   width: 80px;
   height: 6px;
   cursor: pointer;
-  accent-color: #d4213d;
+  accent-color: rgba(255, 255, 255, 0.7);
 }
 
 .score-slider:disabled {
