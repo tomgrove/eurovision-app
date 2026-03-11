@@ -32,10 +32,48 @@ const Dashboard = () => {
   const prevLeaderRef = useRef(null);
   const [newLeaderBanner, setNewLeaderBanner] = useState(null);
 
-  const fireConfetti = useCallback(() => {
+  const FLAG_COLORS = {
+    AL: ['#e41e20', '#000000'],
+    AM: ['#d90012', '#0033a0', '#f2a800'],
+    AU: ['#00008b', '#ffffff', '#ff0000'],
+    AT: ['#ed2939', '#ffffff'],
+    AZ: ['#00b5e2', '#ed2939', '#3f9c35'],
+    BE: ['#000000', '#fae042', '#ed2939'],
+    BG: ['#ffffff', '#00966e', '#d62612'],
+    HR: ['#ff0000', '#ffffff', '#171796'],
+    CY: ['#ffffff', '#d47600'],
+    CZ: ['#11457e', '#d7141a', '#ffffff'],
+    DK: ['#c8102e', '#ffffff'],
+    EE: ['#0072ce', '#000000', '#ffffff'],
+    FI: ['#ffffff', '#003580'],
+    FR: ['#002395', '#ffffff', '#ed2939'],
+    GE: ['#ffffff', '#ff0000'],
+    DE: ['#000000', '#dd0000', '#ffcc00'],
+    GR: ['#0d5eaf', '#ffffff'],
+    IL: ['#0038b8', '#ffffff'],
+    IT: ['#009246', '#ffffff', '#ce2b37'],
+    LV: ['#9e3039', '#ffffff'],
+    LT: ['#fdb913', '#006a44', '#c1272d'],
+    LU: ['#ed2939', '#ffffff', '#00a1de'],
+    MT: ['#ffffff', '#cf142b'],
+    MD: ['#003da5', '#fcd116', '#cc092f'],
+    ME: ['#d4af37', '#cc0000'],
+    NO: ['#ef2b2d', '#ffffff', '#002868'],
+    PL: ['#ffffff', '#dc143c'],
+    PT: ['#006600', '#ff0000', '#ffcc00'],
+    RO: ['#002b7f', '#fcd116', '#ce1126'],
+    SM: ['#5eb6e4', '#ffffff'],
+    RS: ['#c6363c', '#0c4076', '#ffffff'],
+    SE: ['#006aa7', '#fecc00'],
+    CH: ['#ff0000', '#ffffff'],
+    UA: ['#005bbb', '#ffd500'],
+    GB: ['#00247d', '#cf142b', '#ffffff'],
+  };
+
+  const fireConfetti = useCallback((countryCode) => {
     const duration = 3000;
     const end = Date.now() + duration;
-    const colors = ['#0a1e3d', '#1a3a6b', '#ffffff', '#d4213d', '#f5a623'];
+    const colors = FLAG_COLORS[countryCode] || ['#ffffff', '#d4213d', '#f5a623'];
     (function frame() {
       confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
       confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
@@ -50,7 +88,7 @@ const Dashboard = () => {
     const newLeaderId = topWithVotes.id;
     if (prevLeaderRef.current !== null && prevLeaderRef.current !== newLeaderId) {
       setNewLeaderBanner(topWithVotes);
-      fireConfetti();
+      fireConfetti(topWithVotes.countryCode);
       setTimeout(() => setNewLeaderBanner(null), 5000);
     }
     prevLeaderRef.current = newLeaderId;
