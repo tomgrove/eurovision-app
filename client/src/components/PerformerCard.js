@@ -38,7 +38,7 @@ const PerformerCard = ({ performer, onScoreSubmit, initialScore }) => {
         <p className="artist">{performer.artistName}</p>
         <p className="song">{performer.songTitle}</p>
       </div>
-      <div className="scoring-section">
+      <div className="card-scoring">
         <div className="score-display">
           <span className="current-score">{score}</span>
           <span className="max-score">/12</span>
