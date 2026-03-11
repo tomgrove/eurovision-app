@@ -82,11 +82,13 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    if (leaderboard.length === 0) return;
+    if (leaderboard.length < 2) return;
     const topWithVotes = leaderboard.find(p => p.totalVotes > 0);
     if (!topWithVotes) return;
+    const second = leaderboard.find(p => p.totalVotes > 0 && p.id !== topWithVotes.id);
+    const isClearLeader = !second || topWithVotes.totalScore > second.totalScore;
     const newLeaderId = topWithVotes.id;
-    if (prevLeaderRef.current !== null && prevLeaderRef.current !== newLeaderId) {
+    if (prevLeaderRef.current !== null && prevLeaderRef.current !== newLeaderId && isClearLeader) {
       setNewLeaderBanner(topWithVotes);
       fireConfetti(topWithVotes.countryCode);
       setTimeout(() => setNewLeaderBanner(null), 5000);
