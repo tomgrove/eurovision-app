@@ -88,7 +88,10 @@ const Dashboard = () => {
   return (
     <div className="dashboard">
       <header className="dashboard-header">
-        <h1>🎵 Eurovision 2026</h1>
+        <div className="header-left">
+          <img src="/eurovision-logo.jpg" alt="Eurovision 2026 Vienna" className="header-logo" />
+          <h1>Eurovision 2026</h1>
+        </div>
         <div className="header-right">
           <span className="user-greeting">Welcome, {user?.displayName || user?.username}! 👋</span>
           <button className="logout-btn" onClick={logout}>Logout</button>

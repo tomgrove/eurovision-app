@@ -40,7 +40,8 @@ const Signup = ({ onSwitchToLogin }) => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1>🎵 Eurovision Scoring</h1>
+        <img src="/eurovision-logo.jpg" alt="Eurovision 2026 Vienna" className="auth-logo" />
+        <h1>Eurovision Scoring</h1>
         <h2>Create Account</h2>
 
         {error && <div className="error-message">{error}</div>}
