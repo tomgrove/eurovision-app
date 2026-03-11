@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './Dashboard.css';
 import { useAuth } from '../AuthContext';
 import { performersAPI, scoresAPI } from '../api';
 import PerformerCard from '../components/PerformerCard';
+import confetti from 'canvas-confetti';
 
 const countryCodeToFlag = (code) => {
   if (!code || code.length !== 2) return '🏳️';
@@ -26,6 +27,34 @@ const Dashboard = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [comparison, setComparison] = useState(null);
   const [comparisonLoading, setComparisonLoading] = useState(false);
+
+  // Leader change detection
+  const prevLeaderRef = useRef(null);
+  const [newLeaderBanner, setNewLeaderBanner] = useState(null);
+
+  const fireConfetti = useCallback(() => {
+    const duration = 3000;
+    const end = Date.now() + duration;
+    const colors = ['#0a1e3d', '#1a3a6b', '#ffffff', '#d4213d', '#f5a623'];
+    (function frame() {
+      confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors });
+      confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (leaderboard.length === 0) return;
+    const topWithVotes = leaderboard.find(p => p.totalVotes > 0);
+    if (!topWithVotes) return;
+    const newLeaderId = topWithVotes.id;
+    if (prevLeaderRef.current !== null && prevLeaderRef.current !== newLeaderId) {
+      setNewLeaderBanner(topWithVotes);
+      fireConfetti();
+      setTimeout(() => setNewLeaderBanner(null), 5000);
+    }
+    prevLeaderRef.current = newLeaderId;
+  }, [leaderboard, fireConfetti]);
 
   useEffect(() => {
     loadPerformers();
@@ -64,6 +93,7 @@ const Dashboard = () => {
 
   const handleScoreSubmit = () => {
     loadUserScores();
+    loadLeaderboard();
   };
 
   const loadLeaderboard = async () => {
@@ -117,6 +147,15 @@ const Dashboard = () => {
           <button className="logout-btn" onClick={logout}>Logout</button>
         </div>
       </header>
+
+      {newLeaderBanner && (
+        <div className="new-leader-banner">
+          <span className="nlb-trophy">🏆</span>
+          <span className="nlb-text">
+            New #1: {countryCodeToFlag(newLeaderBanner.countryCode)} {newLeaderBanner.country} — {newLeaderBanner.artistName}!
+          </span>
+        </div>
+      )}
 
       <nav className="dashboard-nav">
         <button

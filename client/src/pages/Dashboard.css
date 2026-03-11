@@ -56,6 +56,44 @@
   background: #b01a31;
 }
 
+.new-leader-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(245, 166, 35, 0.9) 0%, rgba(212, 33, 61, 0.9) 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 1em;
+  animation: bannerSlideIn 0.5s ease-out, bannerFadeOut 0.8s ease-in 4.2s forwards;
+  text-align: center;
+}
+
+.nlb-trophy {
+  font-size: 1.4em;
+}
+
+.nlb-text {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes bannerSlideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bannerFadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .dashboard-nav {
   display: flex;
   justify-content: center;
