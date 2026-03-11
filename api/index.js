@@ -12,6 +12,13 @@ const jwt = require('jsonwebtoken');
 try { require('pg'); } catch (_) {}
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'secret-sausage';
+
+const adminAuth = (req, res, next) => {
+  const key = req.headers['x-admin-key'];
+  if (key !== ADMIN_SECRET) return res.status(403).json({ error: 'Forbidden' });
+  next();
+};
 
 const SEED_PERFORMERS = [
   { country: 'Albania', artistName: 'Alis', songTitle: 'Nân', countryCode: 'AL', semifinal: 2 },
@@ -136,6 +143,29 @@ function buildPostgresApp() {
   app.use(express.json());
 
   app.get('/api/health', (_req, res) => res.json({ status: 'Server is running' }));
+
+  // Admin: reset scores only
+  app.post('/api/admin/reset-scores', adminAuth, async (_req, res) => {
+    try {
+      const count = await Score.destroy({ where: {} });
+      res.json({ message: `Deleted ${count} scores` });
+    } catch (err) {
+      console.error('Reset scores error:', err);
+      res.status(500).json({ error: 'Failed to reset scores' });
+    }
+  });
+
+  // Admin: reset scores + users
+  app.post('/api/admin/reset-all', adminAuth, async (_req, res) => {
+    try {
+      const scoreCount = await Score.destroy({ where: {} });
+      const userCount = await User.destroy({ where: {} });
+      res.json({ message: `Deleted ${scoreCount} scores and ${userCount} users` });
+    } catch (err) {
+      console.error('Reset all error:', err);
+      res.status(500).json({ error: 'Failed to reset' });
+    }
+  });
 
   // Auth: signup
   app.post('/api/auth/signup', async (req, res) => {
@@ -345,6 +375,25 @@ function buildMemoryApp() {
   const scores = [];
 
   app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running' }));
+
+  // Admin: reset scores only
+  app.post('/api/admin/reset-scores', adminAuth, (_req, res) => {
+    const count = scores.length;
+    scores.length = 0;
+    nextScoreId = 1;
+    res.json({ message: `Deleted ${count} scores` });
+  });
+
+  // Admin: reset scores + users
+  app.post('/api/admin/reset-all', adminAuth, (_req, res) => {
+    const scoreCount = scores.length;
+    const userCount = users.length;
+    scores.length = 0;
+    users.length = 0;
+    nextScoreId = 1;
+    nextUserId = 1;
+    res.json({ message: `Deleted ${scoreCount} scores and ${userCount} users` });
+  });
 
   app.post('/api/auth/signup', async (req, res) => {
     try {
