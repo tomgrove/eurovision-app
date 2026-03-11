@@ -14,6 +14,23 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/leaderboard', async (req, res) => {
+  try {
+    const performers = await Performer.findAll();
+    const leaderboard = await Promise.all(performers.map(async (p) => {
+      const scores = await Score.findAll({ where: { performerId: p.id }, attributes: ['score'] });
+      const totalVotes = scores.length;
+      const totalScore = scores.reduce((sum, s) => sum + s.score, 0);
+      const averageScore = totalVotes > 0 ? totalScore / totalVotes : 0;
+      return { id: p.id, country: p.country, artistName: p.artistName, songTitle: p.songTitle, countryCode: p.countryCode, totalVotes, totalScore, averageScore: parseFloat(averageScore.toFixed(2)) };
+    }));
+    leaderboard.sort((a, b) => b.totalScore - a.totalScore || b.averageScore - a.averageScore);
+    res.json(leaderboard);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const performer = await Performer.findByPk(req.params.id, {

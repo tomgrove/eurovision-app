@@ -107,6 +107,23 @@ function buildMemoryApp() {
     }
   });
 
+  memoryApp.get('/api/performers/leaderboard', (req, res) => {
+    try {
+      const leaderboard = performers.map(p => {
+        const pScores = scores.filter(s => s.performerId === p.id);
+        const totalVotes = pScores.length;
+        const totalScore = pScores.reduce((sum, s) => sum + s.score, 0);
+        const averageScore = totalVotes > 0 ? totalScore / totalVotes : 0;
+        return { id: p.id, country: p.country, artistName: p.artistName, songTitle: p.songTitle, countryCode: p.countryCode, totalVotes, totalScore, averageScore: parseFloat(averageScore.toFixed(2)) };
+      });
+      leaderboard.sort((a, b) => b.totalScore - a.totalScore || b.averageScore - a.averageScore);
+      res.json(leaderboard);
+    } catch (err) {
+      console.error('In-memory leaderboard error:', err);
+      res.status(500).json({ error: 'A server error has occurred' });
+    }
+  });
+
   memoryApp.get('/api/performers/:id', (req, res) => {
     try {
       const id = parseInt(req.params.id, 10);

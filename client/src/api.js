@@ -30,6 +30,7 @@ export const performersAPI = {
   getAll: () => api.get('/performers'),
   getById: (id) => api.get(`/performers/${id}`),
   getAverage: (id) => api.get(`/performers/${id}/average`),
+  getLeaderboard: () => api.get('/performers/leaderboard'),
 };
 
 export const scoresAPI = {

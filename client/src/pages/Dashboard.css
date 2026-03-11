@@ -108,8 +108,10 @@
 .leaderboard-section {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  padding: 40px;
+  padding: 20px 16px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .leaderboard-section h2 {
@@ -117,11 +119,97 @@
   text-shadow: none;
 }
 
-.coming-soon {
+.leaderboard-empty {
   text-align: center;
   color: #999;
+  font-size: 1em;
+  padding: 30px;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.leaderboard-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.leaderboard-row:hover {
+  background: #eef0ff;
+}
+
+.leaderboard-row.top-three {
+  background: linear-gradient(135deg, #fff9e6 0%, #fff3cc 100%);
+  border-left: 3px solid #f5a623;
+}
+
+.lb-rank {
+  font-weight: bold;
+  font-size: 1em;
+  color: #667eea;
+  min-width: 22px;
+  text-align: center;
+}
+
+.leaderboard-row.top-three .lb-rank {
+  color: #f5a623;
   font-size: 1.1em;
-  padding: 40px;
+}
+
+.lb-flag {
+  font-size: 1.4em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.lb-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.lb-country {
+  font-weight: 600;
+  font-size: 0.9em;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-artist {
+  font-size: 0.78em;
+  color: #888;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lb-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.lb-total {
+  font-weight: bold;
+  font-size: 0.95em;
+  color: #667eea;
+}
+
+.lb-votes {
+  font-size: 0.72em;
+  color: #999;
 }
 
 @media (max-width: 768px) {
