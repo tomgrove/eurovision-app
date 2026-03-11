@@ -19,6 +19,15 @@ router.post('/', authenticate, async (req, res) => {
     if (!performer) {
       return res.status(404).json({ error: 'Performer not found' });
     }
+
+    // Check total pool: sum of all user's scores (excluding this performer) + new score must be <= 12
+    const otherScores = await Score.findAll({ where: { userId: req.userId } });
+    const otherTotal = otherScores
+      .filter(s => String(s.performerId) !== String(performerId))
+      .reduce((sum, s) => sum + s.score, 0);
+    if (otherTotal + score > 12) {
+      return res.status(400).json({ error: `Exceeds your 12-point pool (${12 - otherTotal} remaining)` });
+    }
     
     const [scoreRecord, created] = await Score.findOrCreate({
       where: { userId: req.userId, performerId },

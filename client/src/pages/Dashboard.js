@@ -129,6 +129,15 @@ const Dashboard = () => {
     }
   };
 
+  const POINT_POOL = 12;
+
+  const pointsUsed = Object.values(userScores).reduce((sum, s) => sum + s, 0);
+  const pointsRemaining = POINT_POOL - pointsUsed;
+
+  const handleScoreChange = (performerId, newScore) => {
+    setUserScores(prev => ({ ...prev, [performerId]: newScore }));
+  };
+
   const handleScoreSubmit = () => {
     loadUserScores();
     loadLeaderboard();
@@ -219,18 +228,28 @@ const Dashboard = () => {
       <main className="dashboard-content">
         <section className="scoring-section" style={{ display: activeTab === 'score' ? 'block' : 'none' }}>
           <h2>Rate Your Favorite Performances</h2>
+          <div className="points-pool">
+            <span className="points-remaining">{pointsRemaining}</span>
+            <span className="points-label">points remaining</span>
+          </div>
           {loading ? (
             <div className="loading">Loading performers...</div>
           ) : (
             <div className="performers-grid">
-              {performers.map((performer) => (
-                <PerformerCard
-                  key={performer.id}
-                  performer={performer}
-                  initialScore={userScores[performer.id] || 0}
-                  onScoreSubmit={handleScoreSubmit}
-                />
-              ))}
+              {performers.map((performer) => {
+                const currentScore = userScores[performer.id] || 0;
+                const maxForThis = currentScore + pointsRemaining;
+                return (
+                  <PerformerCard
+                    key={performer.id}
+                    performer={performer}
+                    score={currentScore}
+                    maxScore={Math.min(12, maxForThis)}
+                    onScoreChange={handleScoreChange}
+                    onScoreSubmit={handleScoreSubmit}
+                  />
+                );
+              })}
             </div>
           )}
         </section>

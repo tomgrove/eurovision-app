@@ -186,6 +186,13 @@ function buildMemoryApp() {
       if (score < 0 || score > 12) return res.status(400).json({ error: 'Score must be between 0 and 12' });
       const performer = performers.find(p => p.id === pId);
       if (!performer) return res.status(404).json({ error: 'Performer not found' });
+
+      // Check 12-point pool
+      const otherTotal = scores
+        .filter(s => s.userId === req.userId && s.performerId !== pId)
+        .reduce((sum, s) => sum + s.score, 0);
+      if (otherTotal + score > 12) return res.status(400).json({ error: `Exceeds your 12-point pool (${12 - otherTotal} remaining)` });
+
       let existing = scores.find(s => s.userId === req.userId && s.performerId === pId);
       if (existing) {
         existing.score = score;

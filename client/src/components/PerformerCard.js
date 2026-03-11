@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './PerformerCard.css';
 import { scoresAPI } from '../api';
 
-// Convert 2-letter country code to emoji flag (e.g. "SE" → 🇸🇪)
 const countryCodeToFlag = (code) => {
   if (!code || code.length !== 2) return '🏳️';
   return String.fromCodePoint(
@@ -10,16 +9,18 @@ const countryCodeToFlag = (code) => {
   );
 };
 
-const PerformerCard = ({ performer, onScoreSubmit, initialScore }) => {
-  const [score, setScore] = useState(initialScore || 0);
-  const [comment, setComment] = useState('');
+const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmit }) => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const handleSliderChange = (e) => {
+    onScoreChange(performer.id, parseInt(e.target.value));
+  };
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await scoresAPI.submit(performer.id, score, comment);
+      await scoresAPI.submit(performer.id, score, '');
       setSubmitted(true);
       onScoreSubmit();
       setTimeout(() => setSubmitted(false), 2000);
@@ -41,21 +42,20 @@ const PerformerCard = ({ performer, onScoreSubmit, initialScore }) => {
       <div className="card-scoring">
         <div className="score-display">
           <span className="current-score">{score}</span>
-          <span className="max-score">/12</span>
         </div>
         <input
           type="range"
           min="0"
-          max="12"
+          max={maxScore}
           value={score}
-          onChange={(e) => setScore(parseInt(e.target.value))}
+          onChange={handleSliderChange}
           className="score-slider"
           disabled={loading}
         />
         <button
           onClick={handleSubmit}
           className={`submit-btn ${submitted ? 'submitted' : ''}`}
-          disabled={loading}
+          disabled={loading || score === 0}
         >
           {submitted ? '✓' : loading ? '...' : 'Submit'}
         </button>
