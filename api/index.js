@@ -344,7 +344,7 @@ function buildMemoryApp() {
   let nextScoreId = 1;
   const scores = [];
 
-  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running', dbUrlSet: !!process.env.DATABASE_URL, buildError: buildError || null }));
+  app.get('/api/health', (_req, res) => res.json({ status: 'Server (in-memory) is running', dbUrlSet: !!process.env.DATABASE_URL, buildError: buildError || null, initError: initError || null }));
 
   app.post('/api/auth/signup', async (req, res) => {
     try {
@@ -530,6 +530,8 @@ try {
   initDb = built.initDb;
 }
 
+let initError = null;
+
 module.exports = async (req, res) => {
   try {
     if (!dbInitialized) {
@@ -539,9 +541,10 @@ module.exports = async (req, res) => {
     return app(req, res);
   } catch (err) {
     console.error('Handler error:', err && err.stack ? err.stack : err);
+    initError = err && err.message ? err.message : String(err);
     // If DB init failed, fall back to in-memory
     if (!dbInitialized) {
-      console.warn('DB init failed, switching to in-memory fallback');
+      console.warn('DB init failed, switching to in-memory fallback:', initError);
       const built = buildMemoryApp();
       app = built.app;
       initDb = built.initDb;
