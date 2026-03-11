@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0a1e3d 0%, #1a3a6b 100%);
   padding: 20px;
 }
 
@@ -11,7 +11,7 @@
   background: white;
   padding: 40px;
   border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 400px;
   animation: slideIn 0.6s ease-out;
@@ -27,7 +27,7 @@
 
 .auth-card h1 {
   text-align: center;
-  color: #667eea;
+  color: #0a1e3d;
   margin-bottom: 10px;
   font-size: 2em;
 }
@@ -56,7 +56,7 @@
 
 .auth-form input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #112d5a;
 }
 
 .auth-form input:disabled {
@@ -66,7 +66,7 @@
 
 .auth-form button {
   padding: 12px 15px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #0a1e3d 0%, #1a3a6b 100%);
   color: white;
   border: none;
   border-radius: 8px;
@@ -86,12 +86,12 @@
 }
 
 .error-message {
-  background-color: #fee;
-  color: #c00;
+  background-color: #fde8e8;
+  color: #d4213d;
   padding: 12px;
   border-radius: 8px;
   margin-bottom: 20px;
-  border-left: 4px solid #c00;
+  border-left: 4px solid #d4213d;
 }
 
 .auth-switch {
@@ -103,7 +103,7 @@
 .link-button {
   background: none;
   border: none;
-  color: #667eea;
+  color: #112d5a;
   cursor: pointer;
   font-weight: bold;
   margin-left: 5px;
@@ -111,7 +111,7 @@
 }
 
 .link-button:hover {
-  color: #764ba2;
+  color: #d4213d;
 }
 
 @keyframes slideIn {
