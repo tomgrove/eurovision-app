@@ -8,6 +8,8 @@ const express = require('express');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+// Explicitly require pg so Vercel's bundler includes it (Sequelize loads it dynamically)
+try { require('pg'); } catch (_) {}
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret';
 
