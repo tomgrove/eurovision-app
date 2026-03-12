@@ -11,25 +11,23 @@ const countryCodeToFlag = (code) => {
 
 const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmit }) => {
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
 
-  const handleSliderChange = (e) => {
-    onScoreChange(performer.id, parseInt(e.target.value));
-  };
-
-  const handleSubmit = async () => {
+  const changeScore = async (newScore) => {
+    if (loading) return;
+    onScoreChange(performer.id, newScore);
     setLoading(true);
     try {
-      await scoresAPI.submit(performer.id, score, '');
-      setSubmitted(true);
+      await scoresAPI.submit(performer.id, newScore, '');
       onScoreSubmit();
-      setTimeout(() => setSubmitted(false), 2000);
     } catch (error) {
       console.error('Error submitting score:', error);
     } finally {
       setLoading(false);
     }
   };
+
+  const increment = () => { if (score < maxScore) changeScore(score + 1); };
+  const decrement = () => { if (score > 0) changeScore(score - 1); };
 
   return (
     <div className="performer-card">
@@ -40,25 +38,9 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
         <p className="song">{performer.songTitle}</p>
       </div>
       <div className="card-scoring">
-        <div className="score-display">
-          <span className="current-score">{score}</span>
-        </div>
-        <input
-          type="range"
-          min="0"
-          max={maxScore}
-          value={score}
-          onChange={handleSliderChange}
-          className="score-slider"
-          disabled={loading}
-        />
-        <button
-          onClick={handleSubmit}
-          className={`submit-btn ${submitted ? 'submitted' : ''}`}
-          disabled={loading}
-        >
-          {submitted ? '✓' : loading ? '...' : 'Submit'}
-        </button>
+        <button className="score-arrow" onClick={increment} disabled={loading || score >= maxScore}>▲</button>
+        <span className="current-score">{score}</span>
+        <button className="score-arrow" onClick={decrement} disabled={loading || score <= 0}>▼</button>
       </div>
     </div>
   );
