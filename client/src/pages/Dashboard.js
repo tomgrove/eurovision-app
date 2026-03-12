@@ -99,6 +99,13 @@ const Dashboard = () => {
   useEffect(() => {
     loadPerformers();
     loadUserScores();
+    loadLeaderboard();
+  }, []);
+
+  // Poll leaderboard every 8 seconds for real-time updates from other users
+  useEffect(() => {
+    const interval = setInterval(loadLeaderboard, 8000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
