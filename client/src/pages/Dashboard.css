@@ -5,51 +5,15 @@
   overflow: hidden;
 }
 
-.dashboard::before,
-.dashboard::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+.star-dot {
+  animation-name: starTwinkle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
-/* Layer 1: small scattered stars, slow drift */
-.dashboard::before {
-  background-image:
-    radial-gradient(1px 1px at 7% 12%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 15% 38%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 23% 72%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 32% 8%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 41% 52%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 48% 88%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 56% 25%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 63% 65%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 72% 42%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 78% 78%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 85% 15%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 93% 55%, #fff 50%, transparent 50%);
-  animation: twinkle1 4s ease-in-out infinite alternate;
-}
-
-/* Layer 2: different positions, offset timing for depth */
-.dashboard::after {
-  background-image:
-    radial-gradient(2px 2px at 5% 45%, rgba(255,215,0,0.8) 50%, transparent 50%),
-    radial-gradient(1px 1px at 12% 62%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 20% 20%, #fff 50%, transparent 50%),
-    radial-gradient(2px 2px at 28% 85%, rgba(255,215,0,0.7) 50%, transparent 50%),
-    radial-gradient(1px 1px at 37% 33%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 44% 68%, #fff 50%, transparent 50%),
-    radial-gradient(2px 2px at 52% 10%, rgba(255,215,0,0.8) 50%, transparent 50%),
-    radial-gradient(1px 1px at 60% 48%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 68% 82%, #fff 50%, transparent 50%),
-    radial-gradient(2px 2px at 75% 30%, rgba(255,215,0,0.7) 50%, transparent 50%),
-    radial-gradient(1px 1px at 83% 60%, #fff 50%, transparent 50%),
-    radial-gradient(1.5px 1.5px at 91% 92%, #fff 50%, transparent 50%),
-    radial-gradient(1px 1px at 96% 5%, #fff 50%, transparent 50%),
-    radial-gradient(2px 2px at 3% 95%, rgba(255,215,0,0.6) 50%, transparent 50%);
-  animation: twinkle2 5s ease-in-out infinite alternate;
+@media (prefers-reduced-motion: reduce) {
+  .star-dot { animation: none; }
 }
 
 .dashboard > * {
@@ -568,19 +532,9 @@
 }
 
 /* Keyframes */
-@keyframes twinkle1 {
-  0% { opacity: 0.3; }
-  25% { opacity: 0.8; }
-  50% { opacity: 0.4; }
-  75% { opacity: 1; }
-  100% { opacity: 0.5; }
-}
-
-@keyframes twinkle2 {
-  0% { opacity: 0.6; }
-  30% { opacity: 0.2; }
-  60% { opacity: 0.9; }
-  100% { opacity: 0.35; }
+@keyframes starTwinkle {
+  0% { opacity: 0.15; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.2); }
 }
 
 @keyframes shimmerText {
@@ -601,12 +555,6 @@
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .dashboard::before,
-  .dashboard::after {
-    animation: none;
-    opacity: 0.4;
-  }
-
   .scoring-section h2,
   .leaderboard-section h2 {
     animation: none;

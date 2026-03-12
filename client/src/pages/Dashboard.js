@@ -3,6 +3,7 @@ import './Dashboard.css';
 import { useAuth } from '../AuthContext';
 import { performersAPI, scoresAPI } from '../api';
 import PerformerCard from '../components/PerformerCard';
+import Starfield from '../components/Starfield';
 import confetti from 'canvas-confetti';
 
 const countryCodeToFlag = (code) => {
@@ -192,6 +193,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard">
+      <Starfield />
       <header className="dashboard-header">
         <div className="header-left">
           <img src="/eurovision-logo.jpg" alt="Eurovision 2026 Vienna" className="header-logo" />
