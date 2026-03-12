@@ -21,7 +21,7 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
   const increment = () => { if (score < maxScore) changeScore(score + 1); };
   const decrement = () => { if (score > 0) changeScore(score - 1); };
 
-  const infoUrl = `https://eurovisionworld.com/esc/${performer.country.toLowerCase().replace(/\s+/g, '-')}-2026`;
+  const infoUrl = `https://eurovisionworld.com/eurovision/2026/${performer.country.toLowerCase().replace(/\s+/g, '-')}`;
 
   return (
     <div className="performer-card">
