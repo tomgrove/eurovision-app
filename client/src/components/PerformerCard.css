@@ -60,10 +60,17 @@
   }
 }
 
-.performer-flag {
+.performer-flag-link {
   font-size: 2em;
   line-height: 1;
   flex-shrink: 0;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.performer-flag-link:active {
+  transform: scale(1.15);
 }
 
 .performer-info {

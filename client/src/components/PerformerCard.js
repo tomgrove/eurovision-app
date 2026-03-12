@@ -21,9 +21,13 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
   const increment = () => { if (score < maxScore) changeScore(score + 1); };
   const decrement = () => { if (score > 0) changeScore(score - 1); };
 
+  const infoUrl = `https://eurovisionworld.com/esc/${performer.country.toLowerCase().replace(/\s+/g, '-')}-2026`;
+
   return (
     <div className="performer-card">
-      <span className="performer-flag">{countryCodeToFlag(performer.countryCode)}</span>
+      <a href={infoUrl} target="_blank" rel="noopener noreferrer" className="performer-flag-link">
+        {countryCodeToFlag(performer.countryCode)}
+      </a>
       <div className="performer-info">
         <h3>{performer.country}</h3>
         <p className="artist">{performer.artistName}</p>
