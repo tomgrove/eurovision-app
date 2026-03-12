@@ -59,16 +59,16 @@
 
 .card-scoring {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   flex-shrink: 0;
 }
 
 .score-arrow {
   width: 2em;
   height: 2em;
-  font-size: 1em;
+  font-size: 1.4em;
   line-height: 1;
   border: none;
   border-radius: 6px;
@@ -93,10 +93,10 @@
 }
 
 .current-score {
-  font-size: 1.4em;
+  font-size: 2em;
   font-weight: bold;
   color: #ffffff;
-  min-width: 2em;
+  min-width: 1.5em;
   text-align: center;
-  line-height: 1.2;
+  line-height: 1;
 }

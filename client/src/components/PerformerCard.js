@@ -38,9 +38,9 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
         <p className="song">{performer.songTitle}</p>
       </div>
       <div className="card-scoring">
-        <button className="score-arrow" onClick={increment} disabled={loading || score >= maxScore}>▲</button>
-        <span className="current-score">{score}</span>
         <button className="score-arrow" onClick={decrement} disabled={loading || score <= 0}>▼</button>
+        <span className="current-score">{score}</span>
+        <button className="score-arrow" onClick={increment} disabled={loading || score >= maxScore}>▲</button>
       </div>
     </div>
   );
