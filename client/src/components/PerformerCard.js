@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './PerformerCard.css';
 import { scoresAPI } from '../api';
 
@@ -10,20 +10,20 @@ const countryCodeToFlag = (code) => {
 };
 
 const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmit }) => {
-  const [loading, setLoading] = useState(false);
+  const submitRef = React.useRef(null);
 
-  const changeScore = async (newScore) => {
-    if (loading) return;
+  const changeScore = (newScore) => {
     onScoreChange(performer.id, newScore);
-    setLoading(true);
-    try {
-      await scoresAPI.submit(performer.id, newScore, '');
-      onScoreSubmit();
-    } catch (error) {
-      console.error('Error submitting score:', error);
-    } finally {
-      setLoading(false);
-    }
+    // Debounce: cancel previous pending submit, schedule new one
+    if (submitRef.current) clearTimeout(submitRef.current);
+    submitRef.current = setTimeout(async () => {
+      try {
+        await scoresAPI.submit(performer.id, newScore, '');
+        onScoreSubmit();
+      } catch (error) {
+        console.error('Error submitting score:', error);
+      }
+    }, 400);
   };
 
   const increment = () => { if (score < maxScore) changeScore(score + 1); };
@@ -38,9 +38,9 @@ const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmi
         <p className="song">{performer.songTitle}</p>
       </div>
       <div className="card-scoring">
-        <button className="score-arrow" onClick={decrement} disabled={loading || score <= 0}>▼</button>
+        <button className="score-arrow" onClick={decrement} disabled={score <= 0}>▼</button>
         <span className="current-score">{score}</span>
-        <button className="score-arrow" onClick={increment} disabled={loading || score >= maxScore}>▲</button>
+        <button className="score-arrow" onClick={increment} disabled={score >= maxScore}>▲</button>
       </div>
     </div>
   );

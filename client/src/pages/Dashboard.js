@@ -141,7 +141,6 @@ const Dashboard = () => {
   };
 
   const handleScoreSubmit = () => {
-    loadUserScores();
     loadLeaderboard();
   };
 
