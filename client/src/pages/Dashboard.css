@@ -1,6 +1,34 @@
 .dashboard {
   min-height: 100vh;
   background: linear-gradient(135deg, #0a1e3d 0%, #1a3a6b 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 25% 35%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 20%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 70% 55%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 85% 40%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 90% 75%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 50% 90%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 65% 10%, rgba(255, 255, 255, 0.4) 50%, transparent 50%);
+  background-size: 200% 200%;
+  animation: sparkleShift 12s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dashboard > * {
+  position: relative;
+  z-index: 1;
 }
 
 .dashboard-header {
@@ -28,6 +56,10 @@
   margin: 0;
   color: #ffffff;
   font-size: 1.4em;
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.4),
+    0 0 20px rgba(255, 215, 0, 0.2),
+    0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .header-right {
@@ -121,7 +153,12 @@
 .nav-btn.active {
   background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.6);
+  border-color: transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+    linear-gradient(135deg, #ff0080, #ff8c00, #ffea00, #00c853, #00b0ff, #d500f9, #ff0080);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0 0 8px rgba(255, 0, 128, 0.2), 0 0 8px rgba(0, 176, 255, 0.2);
 }
 
 .dashboard-content {
@@ -138,6 +175,20 @@
   font-size: 1.2em;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   white-space: nowrap;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.6) 0%,
+    #ffffff 20%,
+    rgba(255, 215, 0, 0.9) 40%,
+    #ffffff 60%,
+    rgba(255, 255, 255, 0.6) 80%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 4s ease-in-out infinite;
 }
 
 .points-pool {
@@ -152,6 +203,11 @@
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  border: 1.5px solid transparent;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)),
+    linear-gradient(135deg, rgba(255, 0, 128, 0.4), rgba(255, 140, 0, 0.4), rgba(255, 234, 0, 0.4), rgba(0, 200, 83, 0.4), rgba(0, 176, 255, 0.4), rgba(213, 0, 249, 0.4));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
 }
 
 .points-remaining {
@@ -174,6 +230,22 @@
   margin: 0 auto;
 }
 
+.performers-grid > * {
+  animation: cardFadeSlideIn 0.5s ease-out both;
+}
+
+.performers-grid > *:nth-child(1) { animation-delay: 0.03s; }
+.performers-grid > *:nth-child(2) { animation-delay: 0.06s; }
+.performers-grid > *:nth-child(3) { animation-delay: 0.09s; }
+.performers-grid > *:nth-child(4) { animation-delay: 0.12s; }
+.performers-grid > *:nth-child(5) { animation-delay: 0.15s; }
+.performers-grid > *:nth-child(6) { animation-delay: 0.18s; }
+.performers-grid > *:nth-child(7) { animation-delay: 0.21s; }
+.performers-grid > *:nth-child(8) { animation-delay: 0.24s; }
+.performers-grid > *:nth-child(9) { animation-delay: 0.27s; }
+.performers-grid > *:nth-child(10) { animation-delay: 0.30s; }
+.performers-grid > *:nth-child(n+11) { animation-delay: 0.33s; }
+
 .loading {
   text-align: center;
   color: white;
@@ -193,6 +265,7 @@
 .leaderboard-section h2 {
   color: #ffffff;
   text-shadow: none;
+  -webkit-text-fill-color: transparent;
 }
 
 .leaderboard-empty {
@@ -225,6 +298,36 @@
 .leaderboard-row.top-three {
   background: rgba(255, 255, 255, 0.15);
   border-left: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.leaderboard-row.rank-1 {
+  background: linear-gradient(90deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-left: 3px solid #FFD700;
+}
+
+.leaderboard-row.rank-1 .lb-rank {
+  color: #FFD700;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+}
+
+.leaderboard-row.rank-2 {
+  background: linear-gradient(90deg, rgba(192, 192, 192, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-left: 3px solid #C0C0C0;
+}
+
+.leaderboard-row.rank-2 .lb-rank {
+  color: #C0C0C0;
+  text-shadow: 0 0 6px rgba(192, 192, 192, 0.4);
+}
+
+.leaderboard-row.rank-3 {
+  background: linear-gradient(90deg, rgba(205, 127, 50, 0.18) 0%, rgba(255, 255, 255, 0.08) 100%);
+  border-left: 3px solid #CD7F32;
+}
+
+.leaderboard-row.rank-3 .lb-rank {
+  color: #CD7F32;
+  text-shadow: 0 0 6px rgba(205, 127, 50, 0.4);
 }
 
 .lb-rank {
@@ -436,6 +539,50 @@
 .cr-vs {
   font-size: 0.7em;
   color: rgba(255, 255, 255, 0.3);
+}
+
+/* Keyframes */
+@keyframes sparkleShift {
+  0% { background-position: 0% 0%; opacity: 0.5; }
+  50% { background-position: 100% 100%; opacity: 1; }
+  100% { background-position: 50% 0%; opacity: 0.6; }
+}
+
+@keyframes shimmerText {
+  0% { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+@keyframes cardFadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .dashboard::before {
+    animation: none;
+    opacity: 0.5;
+  }
+
+  .scoring-section h2,
+  .leaderboard-section h2 {
+    animation: none;
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    -webkit-text-fill-color: #ffffff;
+  }
+
+  .performers-grid > * {
+    animation: none;
+  }
 }
 
 @media (max-width: 768px) {

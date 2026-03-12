@@ -272,8 +272,8 @@ const Dashboard = () => {
             ) : (
               <div className="leaderboard-list">
                 {leaderboard.map((p, idx) => (
-                  <div key={p.id} className={`leaderboard-row ${idx < 3 ? 'top-three' : ''}`}>
-                    <span className="lb-rank">{idx + 1}</span>
+                  <div key={p.id} className={`leaderboard-row ${idx < 3 ? 'top-three' : ''} ${idx < 3 ? `rank-${idx + 1}` : ''}`}>
+                    <span className="lb-rank">{idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : idx + 1}</span>
                     <span className="lb-flag">{countryCodeToFlag(p.countryCode)}</span>
                     <div className="lb-info">
                       <span className="lb-country">{p.country}</span>

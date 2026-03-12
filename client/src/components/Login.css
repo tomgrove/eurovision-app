@@ -5,17 +5,43 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #0a1e3d 0%, #1a3a6b 100%);
   padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 25% 35%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 40% 70%, rgba(255, 255, 255, 0.6) 50%, transparent 50%),
+    radial-gradient(1px 1px at 55% 20%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 70% 55%, rgba(255, 255, 255, 0.7) 50%, transparent 50%),
+    radial-gradient(1px 1px at 85% 40%, rgba(255, 255, 255, 0.5) 50%, transparent 50%),
+    radial-gradient(1px 1px at 15% 80%, rgba(255, 255, 255, 0.4) 50%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 90% 75%, rgba(255, 255, 255, 0.6) 50%, transparent 50%);
+  background-size: 200% 200%;
+  animation: authSparkle 12s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .auth-card {
   background: white;
   padding: 40px;
   border-radius: 15px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(255, 215, 0, 0.15),
+    0 0 40px rgba(255, 0, 128, 0.08);
   width: 100%;
   max-width: 400px;
   animation: slideIn 0.6s ease-out;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .auth-logo {
@@ -30,6 +56,9 @@
   color: #0a1e3d;
   margin-bottom: 10px;
   font-size: 2em;
+  text-shadow:
+    0 0 10px rgba(255, 215, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.15);
 }
 
 .auth-card h2 {
@@ -122,5 +151,18 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes authSparkle {
+  0% { background-position: 0% 0%; opacity: 0.5; }
+  50% { background-position: 100% 100%; opacity: 1; }
+  100% { background-position: 50% 0%; opacity: 0.6; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-container::before {
+    animation: none;
+    opacity: 0.5;
   }
 }
