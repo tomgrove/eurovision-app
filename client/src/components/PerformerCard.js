@@ -10,20 +10,12 @@ const countryCodeToFlag = (code) => {
 };
 
 const PerformerCard = ({ performer, score, maxScore, onScoreChange, onScoreSubmit }) => {
-  const submitRef = React.useRef(null);
-
   const changeScore = (newScore) => {
     onScoreChange(performer.id, newScore);
-    // Debounce: cancel previous pending submit, schedule new one
-    if (submitRef.current) clearTimeout(submitRef.current);
-    submitRef.current = setTimeout(async () => {
-      try {
-        await scoresAPI.submit(performer.id, newScore, '');
-        onScoreSubmit();
-      } catch (error) {
-        console.error('Error submitting score:', error);
-      }
-    }, 400);
+    // Fire-and-forget: submit to API without blocking UI
+    scoresAPI.submit(performer.id, newScore, '')
+      .then(() => onScoreSubmit())
+      .catch(err => console.error('Error submitting score:', err));
   };
 
   const increment = () => { if (score < maxScore) changeScore(score + 1); };
