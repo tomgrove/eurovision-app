@@ -107,32 +107,38 @@
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .score-arrow {
-  width: 2em;
-  height: 2em;
+  width: 2.2em;
+  height: 2.2em;
   font-size: 1.4em;
   line-height: 1;
-  border: none;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.25);
   color: white;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: background 0.15s, border-color 0.15s;
   -webkit-tap-highlight-color: transparent;
   user-select: none;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .score-arrow:active:not(:disabled) {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 215, 0, 0.4);
+  border-color: rgba(255, 215, 0, 0.8);
 }
 
 .score-arrow:disabled {
-  opacity: 0.25;
+  opacity: 0.2;
   cursor: default;
 }
 
@@ -143,4 +149,7 @@
   min-width: 1.5em;
   text-align: center;
   line-height: 1;
+  position: relative;
+  z-index: 2;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
 }
